@@ -1,0 +1,28 @@
+ActiveModel is often described as extending features of ActiveRecord to classes
+that do not interact with a database. There are many modules within this extension of utility,
+but the most immediately understandable to me was the validation module.
+It is possible to execute validations on instances of any class.
+There are also serialization, callback, and naming methods, among others.
+
+ActiveRecord is an object-relational mapping tool for rails. It allows
+communication between a Rails application and a database. This is accomplished by
+translating the information from the application into SQL queries by way of several
+methods made available to the model-classes of the application.
+
+ActiveSupport adds functionality to Rails through various language extensions and utility methods.
+One of the express goals of the module seems to be to have almost zero footprint,
+so the first striking component of this is that you need to specifically `require`
+any utility that is to be used. You can include just a single method, groups of methods,
+or the entire module, so it is very customizable. There are many different methods to look at,
+but most immediately understandable were the various adjustments to functionality offered to Array
+and Hash objects.
+
+ActionPack is described as a framework on its github, in contrast to the other
+components gems that I’ve looked at. It is used to deal with web requests, and handles the routing,
+controllers, and views surrounding those implementations. It is further divided into ActionDispatch,
+which is the “web-request” part of ActionPack, and ActionController, which of course deals with the controllers.
+
+ActionMailer is a built in module to Rails that allows an application to send and receive email.
+There are built in methods that allow you to dictate the headers of the email, any attachments,
+as well as the body of the message. It would be interesting to learn about the pros and cons of using
+this built in feature versus SendGrid or other email services.
