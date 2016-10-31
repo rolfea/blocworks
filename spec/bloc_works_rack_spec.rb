@@ -10,6 +10,8 @@ class BlocWorksTest < Test::Unit::TestCase
     BlocWorks::Application.new
   end
 
+  end
+
   def test_it_receives_200_status
     get "/"
 
@@ -27,4 +29,20 @@ class BlocWorksTest < Test::Unit::TestCase
     get "/"
     assert_equal("Hello Blocheads!", last_response.body)
   end
+end
+
+class BlocWorksRouterTest < Test::Unit::TestCase
+  include Rack::Test::Methods
+
+  def app
+    BlocWorks::Application.new
+  end
+
+  def test_it_routes_http_to_controller_and_view
+    # tests controller_and_action
+    # after receiving HTTP path via env variable
+    # should return first part of path as Controller
+    # second as action 
+  end
+
 end
