@@ -4,8 +4,9 @@ module BlocWorks
       _, controller, action, _ = env["PATH_INFO"].split("/", 4)
       controller = controller.capitalize
       controller = "#{controller}Controller"
-
-      [Object.const_get(controller), action]
+      controller = Object.const_get(controller)
+      controller_instance = controller.new(env)
+      [200, {'Content-Type' => "#{controller}"}, [controller_instance.send(action.to_sym)]]
     end
 
     def fav_icon(env)

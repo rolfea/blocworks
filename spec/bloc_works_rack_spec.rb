@@ -38,11 +38,16 @@ class BlocWorksRouterTest < Test::Unit::TestCase
     BlocWorks::Application.new
   end
 
-  def test_it_routes_http_to_controller_and_view
+  def test_it_routes_http_to_controller_and_action
     # tests controller_and_action
     # after receiving HTTP path via env variable
     # should return first part of path as Controller
-    # second as action 
+    # second as action
   end
 
+  def test_it_routes_http_to_fav_icon
+    # tests fav_icon
+    # after receiving HTTP path
+    # should return 404 code and blank page for now
+  end
 end
