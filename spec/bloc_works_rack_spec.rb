@@ -45,6 +45,34 @@ class BlocWorksRouterTest < Test::Unit::TestCase
     assert_equal("Hello Blocheads!", last_response.body)
   end
 
+  def test_it_routes_create
+    get "/books/create"
+
+    assert_equal(200, last_response.status)
+    assert_equal("Create", last_response.body)
+  end
+
+  def test_it_routes_read
+    get "/books/read"
+
+    assert_equal(200, last_response.status)
+    assert_equal("Read", last_response.body)
+  end
+
+  def test_it_routes_update
+    get "/books/update"
+
+    assert_equal(200, last_response.status)
+    assert_equal("Update", last_response.body)
+  end
+
+  def test_it_routes_destroy
+    get "/books/destroy"
+
+    assert_equal(200, last_response.status)
+    assert_equal("Destroy", last_response.body)
+  end
+
   def test_it_routes_http_to_fav_icon
     get "/favicon.ico"
 
