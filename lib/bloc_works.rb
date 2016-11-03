@@ -1,7 +1,7 @@
 require_relative 'bloc_works/version'
-require "bloc_works/dependencies"
-require 'bloc_works/router'
-require "controller"
+require_relative "bloc_works/dependencies"
+require_relative 'bloc_works/router'
+require_relative "controller"
 
 module BlocWorks
   class Application
@@ -11,7 +11,7 @@ module BlocWorks
       else
         fav_icon(env)
       end
-      #[200, {'Content-Type' => 'text/html'}, ["Hello Blocheads!"]]
+      [200, {'Content-Type' => 'text/html'}, ["Hello Blocheads!"]]
     end
   end
 end
