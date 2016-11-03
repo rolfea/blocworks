@@ -11,7 +11,7 @@ module BlocWorks
       else
         fav_icon(env)
       end
-      [200, {'Content-Type' => 'text/html'}, ["Hello Blocheads!"]]
+      #[200, {'Content-Type' => 'text/html'}, ["Hello Blocheads!"]]
     end
   end
 end
