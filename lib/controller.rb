@@ -15,8 +15,7 @@ module BlocWorks
         inst_var_value = self.instance_variable_get(inst_var)
         # set them as eruby instance variables
         eruby.instance_variable_set(inst_var, inst_var_value)
-      end
-      puts "THIS IS ERUBY: #{eruby.instance_variables}"
+      end      
       eruby.result(locals.merge(env: @env))
     end
 
