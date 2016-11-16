@@ -2,6 +2,14 @@ require "erubis"
 
 module BlocWorks
   class Controller
+    def request
+      @request ||= Rack::Request.new(@env)
+    end
+
+    def params
+      request.params
+    end
+
     def initialize(env)
       @env = env
     end
@@ -15,7 +23,7 @@ module BlocWorks
         inst_var_value = self.instance_variable_get(inst_var)
         # set them as eruby instance variables
         eruby.instance_variable_set(inst_var, inst_var_value)
-      end      
+      end
       eruby.result(locals.merge(env: @env))
     end
 
