@@ -9,14 +9,8 @@ module BlocWorks
       controller = Object.const_get(controller)
       controller_instance = controller.new(env)
 
-      text = controller_instance.send(action.to_sym).body
-
-      if controller_instance.has_response?
-        status, header, response = controller_instance.get_response
-        [status, header, [response.body].flatten]
-      else
-        [200, {'Content-Type' => 'text/html'}, [text.to_s]]
-      end
+      rack_app = get_rack_app(env)
+      rack_app.call(env)
     end
 
     def get_rack_app(env)
