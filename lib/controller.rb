@@ -9,7 +9,8 @@ module BlocWorks
 
     def dispatch(action, routing_params = {})
       @routing_params = routing_params
-      text = self.send(action.to_sym)
+      text = self.send(action)
+
       if has_response?
         rack_response = get_response
         [rack_response.status, rack_response.header, [rack_response.body].flatten]
@@ -37,6 +38,10 @@ module BlocWorks
 
     def render(*args)
       response(create_response_array(*args))
+    end
+
+    def redirect(*args)      
+      response(create_response_array(*args), 302)
     end
 
     def get_response

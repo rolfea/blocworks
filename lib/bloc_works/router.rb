@@ -1,4 +1,4 @@
-#require_relative '../controller'
+require_relative '../controller'
 
 module BlocWorks
   class Application
@@ -9,8 +9,9 @@ module BlocWorks
       controller = Object.const_get(controller)
       controller_instance = controller.new(env)
 
-      rack_app = get_rack_app(env)
-      rack_app.call(env)
+      # rack_app = get_rack_app(env)
+      # puts rack_app.class
+      # rack_app.call(env)
     end
 
     def get_rack_app(env)
@@ -66,17 +67,17 @@ module BlocWorks
         end
       end
 
-      puts "URL is: #{url}"
-      puts "options are: #{options}"
-      puts "destination is: #{destination}"
-      puts "vars are: #{vars}"
-
-
       regex = regex_parts.join("/")
-      puts "regex is: #{regex}"
       @rules.push({ regex: Regexp.new("^/#{regex}$"),
                     vars: vars, destination: destination,
                     options: options })
+
+      # puts "URL is: #{url}"
+      # puts "options are: #{options}"
+      # puts "destination is: #{destination}"
+      # puts "vars are: #{vars}"
+      # puts "regex is: #{regex}"
+
     end
 
     def look_up_url(url)
@@ -96,7 +97,7 @@ module BlocWorks
           else
             controller = params["controller"]
             action = params["action"]
-            return get_destination("#{controller}##{}{action}", params)
+            return get_destination("#{controller}##{action}", params)
           end
         end
       end
@@ -109,10 +110,32 @@ module BlocWorks
 
       if destination =~ /^([^#]+)#([^#]+)$/
         name = $1.capitalize
-        controller = Object.const.get("#{name}Controller")
+        controller = Object.const_get("#{name}Controller")
         return controller.action($2, routing_params)
       end
+
       raise "Destination not found: #{destination}"
     end
+
+    private
+    # # def set_options(*args)
+    # #   options = {}
+    # #   options = args.pop if args[-1].is_a?(Hash)
+    # #   options[:default] ||= {}
+    # #   options
+    # # end
+    # #
+    # # def set_destination(*args)
+    # #   destination = nil
+    # #   destination = args.pop if args.size > 0
+    # #   raise "Too many args!" if args.size > 0
+    # #   destination
+    # # end
+    #
+    # def split_url_parts(url)
+    #   parts = url.split("/")
+    #   parts.reject! { |part| part.empty? }
+    #   parts
+    # end
   end
 end
