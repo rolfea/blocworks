@@ -36,11 +36,15 @@ module BlocWorks
       @response = Rack::Response.new([text].flatten, status, headers)
     end
 
-    def render(*args)
-      response(create_response_array(*args))
+    def render(locals = {})      
+      if @routing_params["action"].nil?
+        response(create_response_array("welcome", locals))
+      else
+        response(create_response_array(@routing_params["action"], locals))
+      end
     end
 
-    def redirect(*args)      
+    def redirect(*args)
       response(create_response_array(*args), 302)
     end
 

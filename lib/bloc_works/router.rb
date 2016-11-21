@@ -18,7 +18,6 @@ module BlocWorks
       if @router.nil?
         raise "No routes defined"
       end
-
       @router.look_up_url(env["PATH_INFO"])
     end
 
@@ -40,14 +39,21 @@ module BlocWorks
       @rules = []
     end
 
-    def map(url, *args)
-      options = {}
-      options = args.pop if args[-1].is_a?(Hash)
-      options[:default] ||= {}
+    def resources(resource_controller)
+      map "", "#{resource_controller}#welcome"
+      map ":controller/:id/:action"
+      map ":controller/:id", default: { "action" => "show" } # GET
+      map ":controller", default: { "action" => "index" } # GET
+      map ":controller", default: { "action" => "new" } # GET
+      map ":controller/:id", default: { "action" => "edit" } # GET
+      map ":controller/:id", default: { "action" => "update" } # PUT
+      map ":controller", default: { "action" => "create" } # POST
+      map ":controller/:id", default: { "action" => "destroy" } # DELETE
+    end
 
-      destination = nil
-      destination = args.pop if args.size > 0
-      raise "Too many args!" if args.size > 0
+    def map(url, *args)
+      options = set_options(args)
+      destination = set_destination(args)
 
       parts = url.split("/")
       parts.reject! { |part| part.empty? }
@@ -85,12 +91,7 @@ module BlocWorks
         rule_match = rule[:regex].match(url)
 
         if rule_match
-          options = rule[:options]
-          params = options[:default].dup
-
-          rule[:vars].each_with_index do |var, index|
-            params[var] = rule_match.captures[index]
-          end
+          params = set_params(rule, rule_match)
 
           if rule[:destination]
             return get_destination(rule[:destination], params)
@@ -118,24 +119,28 @@ module BlocWorks
     end
 
     private
-    # # def set_options(*args)
-    # #   options = {}
-    # #   options = args.pop if args[-1].is_a?(Hash)
-    # #   options[:default] ||= {}
-    # #   options
-    # # end
-    # #
-    # # def set_destination(*args)
-    # #   destination = nil
-    # #   destination = args.pop if args.size > 0
-    # #   raise "Too many args!" if args.size > 0
-    # #   destination
-    # # end
-    #
-    # def split_url_parts(url)
-    #   parts = url.split("/")
-    #   parts.reject! { |part| part.empty? }
-    #   parts
-    # end
+    def set_options(args_array)
+      options = {}
+      options = args_array.pop if args_array[-1].is_a?(Hash)
+      options[:default] ||= {}
+      options
+    end
+
+    def set_destination(args_array)
+      destination = nil
+      destination = args_array.pop if args_array.size > 0
+      raise "Too many args!" if args_array.size > 0
+      destination
+    end
+
+    def set_params(rule, rule_match)
+      options = rule[:options]
+      params = options[:default].dup
+
+      rule[:vars].each_with_index do |var, index|
+        params[var] = rule_match.captures[index]
+      end
+      params
+    end
   end
 end
